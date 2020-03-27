@@ -2,12 +2,18 @@ package com.suncomp.marketplace.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.suncomp.marketplace.dao.ProductDAO;
 import com.suncomp.marketplace.entity.Product;
 
+@Service
 public class ProductService {
 	
+	@Autowired
 	private ProductDAO productDAO;
 
 	public Product save(Product product) {
@@ -15,7 +21,8 @@ public class ProductService {
 	}
 	
 	public List<Product> retrieveAll(){
-		return productDAO.findByValidFromBeforeAndValidToAfter(new Date());
+		Date now = new Date();
+		return productDAO.findByValidFromBeforeAndValidToAfter(now, now);
 	}
 	
 	public Product update(Product product) {
@@ -26,6 +33,16 @@ public class ProductService {
 		productDAO.save(oldProduct);
 		product.setValidFrom(now);
 		return productDAO.save(product);
+	}
+
+	public Optional<Product> findById(Long id) {
+		return productDAO.findById(id);
+	}
+
+	public void delete(Long id) {
+		Product product = productDAO.getOne(id);
+		product.setValidTo(new Date());
+		productDAO.save(product);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.suncomp.marketplace.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,7 @@ public class MPOrder {
 	
 	private Date createTime;
 	
+	@Embedded
 	private Money price;
 	
 	private String buyer;

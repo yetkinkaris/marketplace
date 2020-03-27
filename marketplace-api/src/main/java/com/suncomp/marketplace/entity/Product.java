@@ -2,6 +2,7 @@ package com.suncomp.marketplace.entity;
 
 import java.util.Date;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,6 +25,7 @@ public class Product {
 	
 	private Date validTo;
 	
+	@Embedded
 	private Money price;
 
 	public Long getId() {

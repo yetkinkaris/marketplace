@@ -2,6 +2,9 @@ package com.suncomp.marketplace.model;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Money {
 
 	private BigDecimal amount;

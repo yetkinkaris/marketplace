@@ -1,25 +1,21 @@
 package com.suncomp.marketplace.dto;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 
-import com.suncomp.marketplace.entity.Product;
 import com.suncomp.marketplace.model.Money;
 
 public class OrderDTO {
 
-private Long id;
-	
-	private Date createTime;
+	private Long id;
 	
 	private Money price;
 	
-	private String buyer;
-	
-	@OneToMany(targetEntity = Product.class)
-	private List<Product> products;
+	@Email (message = "Email should be valid")
+	private String buyerEmail;
+
+	private List<ProductDTO> products;
 
 	public Long getId() {
 		return id;
@@ -27,14 +23,6 @@ private Long id;
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
 	}
 
 	public Money getPrice() {
@@ -46,18 +34,18 @@ private Long id;
 	}
 
 	public String getBuyer() {
-		return buyer;
+		return buyerEmail;
 	}
 
-	public void setBuyer(String buyer) {
-		this.buyer = buyer;
+	public void setBuyerEmail(String buyerEmail) {
+		this.buyerEmail = buyerEmail;
 	}
 
-	public List<Product> getProducts() {
+	public List<ProductDTO> getProducts() {
 		return products;
 	}
 
-	public void setProducts(List<Product> products) {
+	public void setProducts(List<ProductDTO> products) {
 		this.products = products;
 	}
 }

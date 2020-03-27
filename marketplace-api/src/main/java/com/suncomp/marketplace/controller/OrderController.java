@@ -1,12 +1,15 @@
 package com.suncomp.marketplace.controller;
 
+import static com.suncomp.marketplace.utility.MapperUtils.convertToDTO;
+import static com.suncomp.marketplace.utility.MapperUtils.convertToEntity;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,17 +22,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.suncomp.marketplace.dto.OrderDTO;
 import com.suncomp.marketplace.entity.MPOrder;
-import com.suncomp.marketplace.service.OrderService;
+import com.suncomp.marketplace.service.impl.OrderService;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 
-	@Autowired
+	public OrderController(OrderService orderService) {
+		this.orderService = orderService;
+	}
+
 	private OrderService orderService;
 	
 	@PostMapping("/submit")
-	public ResponseEntity<OrderDTO> submit(@RequestBody OrderDTO orderDTO) {
+	public ResponseEntity<OrderDTO> submit(@RequestBody @Valid OrderDTO orderDTO) {
 		MPOrder order = orderService.submitOrder(convertToEntity(orderDTO));
 		return ResponseEntity.ok(convertToDTO(order));
 	}
@@ -54,18 +60,6 @@ public class OrderController {
 	public ResponseEntity<List<OrderDTO>> retrieveOrderWithBuyer(@PathVariable("buyer") String buyer) {
 		List<OrderDTO> orderDTOs = orderService.findByBuyer(buyer).stream().map(order -> convertToDTO(order)).collect(Collectors.toList());
 		return ResponseEntity.ok(orderDTOs);
-	}
-	
-	private MPOrder convertToEntity(OrderDTO orderDTO) {
-		MPOrder order = new MPOrder();
-		BeanUtils.copyProperties(orderDTO, order);
-		return order;
-	}
-	
-	private OrderDTO convertToDTO(MPOrder order) {
-		OrderDTO orderDTO = new OrderDTO();
-		BeanUtils.copyProperties(order, orderDTO);
-		return orderDTO;
 	}
 	
 }

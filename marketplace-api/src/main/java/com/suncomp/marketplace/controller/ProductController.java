@@ -1,11 +1,12 @@
 package com.suncomp.marketplace.controller;
 
+import static com.suncomp.marketplace.utility.MapperUtils.convertToDTO;
+import static com.suncomp.marketplace.utility.MapperUtils.convertToEntity;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,18 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.suncomp.marketplace.dto.ProductDTO;
 import com.suncomp.marketplace.entity.Product;
-import com.suncomp.marketplace.service.ProductService;
+import com.suncomp.marketplace.service.impl.ProductService;
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
 
-	@Autowired
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
+
 	private ProductService productService;
 	
 	@PostMapping("/create")
 	public ResponseEntity<ProductDTO> create(@RequestBody ProductDTO productDTO) {
 		Product product = null;
+		productDTO.setId(null);
 		try {
 			product = productService.save(convertToEntity(productDTO));			
 		} catch (Exception e) {
@@ -64,24 +69,14 @@ public class ProductController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity delete(@PathVariable Long id){
+	public ResponseEntity<String> delete(@PathVariable Long id){
 		if (!productService.findById(id).isPresent()) {
             return ResponseEntity.badRequest().build();
         }
 		productService.delete(id);
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok("Deleted");
 	}
 
-	private Product convertToEntity(ProductDTO productDTO) {
-		Product product = new Product();
-		BeanUtils.copyProperties(productDTO, product);
-		return product;
-	}
 	
-	private ProductDTO convertToDTO(Product product) {
-		ProductDTO productDTO = new ProductDTO();
-		BeanUtils.copyProperties(product, productDTO);
-		return productDTO;
-	}
 	
 }

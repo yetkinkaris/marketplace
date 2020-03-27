@@ -1,14 +1,17 @@
 package com.suncomp.marketplace.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import org.springframework.util.CollectionUtils;
 
 import com.suncomp.marketplace.model.Money;
 
@@ -16,12 +19,12 @@ import com.suncomp.marketplace.model.Money;
 public class MPOrder {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
 	private Date createTime;
 	
-	@Embedded
+	@Transient
 	private Money price;
 	
 	private String buyer;
@@ -49,10 +52,6 @@ public class MPOrder {
 		return price;
 	}
 
-	public void setPrice(Money price) {
-		this.price = price;
-	}
-
 	public String getBuyer() {
 		return buyer;
 	}
@@ -67,6 +66,9 @@ public class MPOrder {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+		if (CollectionUtils.isEmpty(this.products)) {
+			price = new Money(this.products.stream().map(product -> product.getPrice().getAmount()).reduce(BigDecimal.ZERO, BigDecimal::add), products.get(0).getPrice().getCurrency());
+		}
 	}
 	
 }

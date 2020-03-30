@@ -36,6 +36,7 @@ public class OrderController {
 	
 	@PostMapping("/submit")
 	public ResponseEntity<OrderDTO> submit(@RequestBody @Valid OrderDTO orderDTO) {
+		orderDTO.setId(null);
 		MPOrder order = orderService.submitOrder(convertToEntity(orderDTO));
 		return ResponseEntity.ok(convertToDTO(order));
 	}

@@ -66,7 +66,7 @@ public class OrderServiceTest {
 	
 	private MPOrder testOrder() {
 		MPOrder mpOrder = new MPOrder();
-		mpOrder.setBuyer("buyer1@email.com");
+		mpOrder.setBuyerEmail("buyer1@email.com");
 		mpOrder.setCreateTime(addNow(-10));
 		mpOrder.setId(1L);
 		productService.save(testProduct());

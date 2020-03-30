@@ -33,7 +33,7 @@ public class OrderDTO {
 		this.price = price;
 	}
 
-	public String getBuyer() {
+	public String getBuyerEmail() {
 		return buyerEmail;
 	}
 

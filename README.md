@@ -8,14 +8,12 @@ Use Maven Wrapper to build application.
 ./mvnw.cmd clean install for Windows
 
 ## Run
-
-Build script produces executable fat jar.
 It can be run on any platform with JRE11 with following script.
-java -jar marketplace-api-<version>.jar
+mvn spring-boot:run
 
 ##API Doc
 
-Can be accessed at /v2/api-docs
+Can be accessed at /swagger-ui.html and /v2/api-docs
 
 ##QAs
 

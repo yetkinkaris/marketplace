@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.suncomp.marketplace.entity.MPOrder;
 
 public interface OrderDAO extends JpaRepository<MPOrder, Long>{
-	List<MPOrder> findByBuyer(String buyer);
+	List<MPOrder> findByBuyerEmail(String buyer);
 	List<MPOrder> findByCreateTimeBetween(Date from, Date to);
 }

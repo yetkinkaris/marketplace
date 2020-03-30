@@ -21,6 +21,7 @@ public class OrderService implements IOrderService{
 	
 	@Override
 	public MPOrder submitOrder(MPOrder order) {
+		order.setCreateTime(new Date());
 		return orderDAO.save(order);
 	}
 
@@ -36,6 +37,6 @@ public class OrderService implements IOrderService{
 	
 	@Override
 	public List<MPOrder> findByBuyer(String buyer) {
-		return orderDAO.findByBuyer(buyer);
+		return orderDAO.findByBuyerEmail(buyer);
 	}
 }

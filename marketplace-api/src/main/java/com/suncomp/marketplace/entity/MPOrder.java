@@ -28,7 +28,7 @@ public class MPOrder {
 	@Transient
 	private Money price;
 	
-	private String buyer;
+	private String buyerEmail;
 	
 	@OneToMany(targetEntity = Product.class, fetch = FetchType.EAGER)
 	private List<Product> products;
@@ -57,12 +57,12 @@ public class MPOrder {
 		this.price = price;
 	}
 
-	public String getBuyer() {
-		return buyer;
+	public String getBuyerEmail() {
+		return buyerEmail;
 	}
 
-	public void setBuyer(String buyer) {
-		this.buyer = buyer;
+	public void setBuyerEmail(String buyerEmail) {
+		this.buyerEmail = buyerEmail;
 	}
 
 	public List<Product> getProducts() {

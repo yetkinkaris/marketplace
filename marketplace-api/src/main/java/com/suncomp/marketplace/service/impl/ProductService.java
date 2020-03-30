@@ -47,7 +47,13 @@ public class ProductService implements IProductService{
 		oldProduct.setValidTo(new Date());
 		productDAO.save(oldProduct);
 		product.setId(null);
-		return productDAO.save(product);
+		if	(product.getName() == null) {
+			product.setName(oldProduct.getName());
+		}
+		if	(product.getPrice() == null) {
+			product.setPrice(oldProduct.getPrice());
+		}
+		return save(product);
 	}
 
 	@Override

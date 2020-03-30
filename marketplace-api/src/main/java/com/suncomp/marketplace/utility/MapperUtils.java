@@ -1,5 +1,8 @@
 package com.suncomp.marketplace.utility;
 
+
+import java.util.ArrayList;
+
 import org.springframework.beans.BeanUtils;
 
 import com.suncomp.marketplace.dto.OrderDTO;
@@ -23,13 +26,21 @@ public class MapperUtils {
 	
 	public static MPOrder convertToEntity(OrderDTO orderDTO) {
 		MPOrder order = new MPOrder();
-		BeanUtils.copyProperties(orderDTO, order, "price");
+		BeanUtils.copyProperties(orderDTO, order, "price", "products");
+		order.setProducts(new ArrayList<Product>());
+		for (ProductDTO productDTO : orderDTO.getProducts()) {
+			order.getProducts().add(convertToEntity(productDTO));
+		}
 		return order;
 	}
 	
 	public static OrderDTO convertToDTO(MPOrder order) {
 		OrderDTO orderDTO = new OrderDTO();
-		BeanUtils.copyProperties(order, orderDTO);
+		BeanUtils.copyProperties(order, orderDTO, "products");
+		orderDTO.setProducts(new ArrayList<ProductDTO>());
+		for (Product product : order.getProducts()) {
+			orderDTO.getProducts().add(convertToDTO(product));
+		}
 		return orderDTO;
 	}
 }
